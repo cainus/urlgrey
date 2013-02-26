@@ -13,6 +13,26 @@ describe("urlgrey", function(){
         .toString().should.equal('http://blah');
     });
   });
+  describe("port", function(){
+    it("gets the port", function(){
+      var url = "https://user:pass@subdomain.asdf.com:9090";
+      urlgrey(url).port().should.equal(9090);
+    });
+    it("gets the port as 80 when it's missing", function(){
+      var url = "https://user:pass@subdomain.asdf.com";
+      urlgrey(url).port().should.equal(80);
+    });
+    it("omits the port when it's 80", function(){
+      var url = "https://subdomain.asdf.com:9090";
+      urlgrey(url).port(80)
+        .toString().should.equal('https://subdomain.asdf.com');
+    });
+    it("sets the port", function(){
+      var url = "https://subdomain.asdf.com";
+      urlgrey(url).port(9090)
+        .toString().should.equal('https://subdomain.asdf.com:9090');
+    });
+  });
   describe("path", function(){
     it("gets the path", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
