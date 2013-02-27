@@ -19,6 +19,12 @@ describe("urlgrey", function(){
       url.toString().should.equal(urlStr); // original object is unmodified
     });
   });
+  describe("#toJSON", function(){
+    it("returns the same thing as toString", function(){
+      var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
+      urlgrey(url).toJSON().should.equal(urlgrey(url).toString());
+    });
+  });
   describe("#hostname", function(){
     it("gets the hostname", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
