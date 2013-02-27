@@ -2,6 +2,23 @@ var should = require('should');
 var urlgrey = require('../index');
 
 describe("urlgrey", function(){
+  describe("chainability", function(){
+    it("doesn't over-write the original url", function(){
+      var urlStr = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
+      var url = urlgrey(urlStr);
+      url.hostname('asdf.com')
+        .toString().should.equal("https://user:pass@asdf.com/path?asdf=1234#frag");
+      url.port(8080);
+      url.protocol('http');
+      url.username('http');
+      url.password('http');
+      url.path('http');
+      url.hash('http');
+      url.queryString('http=1234');
+      url.query(false);
+      url.toString().should.equal(urlStr); // original object is unmodified
+    });
+  });
   describe("#hostname", function(){
     it("gets the hostname", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
