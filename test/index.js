@@ -2,10 +2,14 @@ var should = require('should');
 var urlgrey = require('../index');
 
 describe("urlgrey", function(){
-  describe("hostname", function(){
+  describe("#hostname", function(){
     it("gets the hostname", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).hostname().should.equal('subdomain.asdf.com');
+    });
+    it("gets the hostname even if unset", function(){
+      var url = "/path?asdf=1234#frag";
+      urlgrey(url).hostname().should.equal('localhost');
     });
     it("sets the hostname", function(){
       var url = "http://subdomain.asdf.com";
@@ -13,7 +17,7 @@ describe("urlgrey", function(){
         .toString().should.equal('http://blah');
     });
   });
-  describe("port", function(){
+  describe("#port", function(){
     it("gets the port", function(){
       var url = "https://user:pass@subdomain.asdf.com:9090";
       urlgrey(url).port().should.equal(9090);
@@ -33,7 +37,7 @@ describe("urlgrey", function(){
         .toString().should.equal('https://subdomain.asdf.com:9090');
     });
   });
-  describe("path", function(){
+  describe("#path", function(){
     it("gets the path", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).path().should.equal('/path');
@@ -43,8 +47,13 @@ describe("urlgrey", function(){
       urlgrey(url).path("blah")
         .toString().should.equal('https://subdomain.asdf.com/blah');
     });
+    it ("sets the path from strings and arrays of strings", function(){
+      var url = "https://asdf.com";
+      urlgrey(url).path(['qwer', '/asdf'], 'qwer/1234/', '/1234/')
+              .toString().should.equal('https://asdf.com/qwer/asdf/qwer/1234/1234');
+    });
   });
-  describe("hash", function(){
+  describe("#hash", function(){
     it("gets the hash", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).hash().should.equal('frag');
@@ -55,7 +64,7 @@ describe("urlgrey", function(){
         .toString().should.equal('https://subdomain.asdf.com#blah');
     });
   });
-  describe("password", function(){
+  describe("#password", function(){
     it("gets the password", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).password().should.equal('pass');
@@ -66,7 +75,7 @@ describe("urlgrey", function(){
         .toString().should.equal('https://user:blah@subdomain.asdf.com');
     });
   });
-  describe("username", function(){
+  describe("#username", function(){
     it("gets the username", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).username().should.equal('user');
@@ -77,16 +86,42 @@ describe("urlgrey", function(){
         .toString().should.equal('https://blah:pass@subdomain.asdf.com');
     });
   });
-  describe("toString", function(){
+  describe("#parent", function(){
+    it("returns the second-last item in the path if there is no input", function(){
+      var url = "http://asdf.com/path/kid?asdf=1234#frag";
+      urlgrey(url).parent()
+        .toString().should.equal('http://asdf.com/path?asdf=1234#frag');
+    });
+  });
+  describe("#child", function(){
+    it("returns a url with the given path suffix added", function(){
+      var url = "http://asdf.com/path?asdf=1234#frag";
+      urlgrey(url).child('kid')
+        .toString().should.equal('http://asdf.com/path/kid?asdf=1234#frag');
+    });
+    it("returns the last item in the path if there is no input", function(){
+      var url = "http://asdf.com/path/kid?asdf=1234#frag";
+      urlgrey(url).child().should.equal('kid');
+    });
+  });
+  describe("#toString", function(){
     it("returns the input string if unmodified", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).toString().should.equal(url);
     });
+    it("returns an absolute uri even if one is not given", function(){
+      var url = "/path?asdf=1234#frag";
+      urlgrey(url).toString().should.equal('http://localhost/path?asdf=1234#frag');
+    });
   });
-  describe("protocol", function(){
+  describe("#protocol", function(){
     it("gets the protocol", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
-      urlgrey(url).toString().should.equal(url);
+      urlgrey(url).protocol().should.equal('https');
+    });
+    it("gets the protocol as http if unset", function(){
+      var url = "/path?asdf=1234#frag";
+      urlgrey(url).protocol().should.equal('http');
     });
     it("sets the protocol", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
@@ -95,16 +130,14 @@ describe("urlgrey", function(){
     });
   });
 
-  describe("queryString", function(){
+  describe("#queryString", function(){
     it("sets the queryString", function(){
       urlgrey("http://s.asdf.com").queryString('asdf=1234')
         .toString().should.equal("http://s.asdf.com?asdf=1234");
-
     });
     it("updates the queryString", function(){
       urlgrey("http://s.asdf.com?asdf=1234").queryString('qwer=1235')
         .toString().should.equal("http://s.asdf.com?qwer=1235");
-
     });
     it("gets the queryString", function(){
       urlgrey("http://s.asdf.com/?qwer=1234").queryString()
@@ -113,11 +146,10 @@ describe("urlgrey", function(){
     it("'roundtrips' the queryString", function(){
       urlgrey("http://s.asdf.com/?qwer=1234").queryString('asdf=1234')
         .queryString().should.equal("asdf=1234");
-
     });
 
   });
-  describe("query", function(){
+  describe("#query", function(){
     it("adds a querystring", function(){
       urlgrey("http://asdf.com").query({asdf:'12 34'})
         .toString().should.equal("http://asdf.com?asdf=12%2034");
@@ -133,6 +165,16 @@ describe("urlgrey", function(){
     it("extracts a querystring as an object", function(){
       urlgrey("http://asdf.com?asdf=5678").query()
         .should.eql({asdf:'5678'});
+    });
+  });
+  describe('#encode', function(){
+    it ("returns a url-encoded version of its input string", function(){
+      urlgrey('').encode("this is a test").should.equal("this%20is%20a%20test");
+    });
+  });
+  describe('#decode', function(){
+    it ("returns a url-decoded version of its input string", function(){
+      urlgrey('').decode("this%20is%20a%20test").should.equal("this is a test");
     });
   });
 
