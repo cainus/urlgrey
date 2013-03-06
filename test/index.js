@@ -119,8 +119,8 @@ describe("urlgrey", function(){
   describe("#child", function(){
     it("returns a url with the given path suffix added", function(){
       var url = "http://asdf.com/path?asdf=1234#frag";
-      urlgrey(url).child('kid')
-        .toString().should.equal('http://asdf.com/path/kid?asdf=1234#frag');
+      urlgrey(url).child('kid here')
+        .toString().should.equal('http://asdf.com/path/kid%20here?asdf=1234#frag');
     });
     it("returns the last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
