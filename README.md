@@ -16,9 +16,10 @@ https://user:pass@subdomain.asdf.com/path/kid?asdf=1234#frag
 To create a new urlgrey object, just pass a url to urlgrey like so:
 ```javascript
 var url = urlgrey("https://user:pass@subdomain.asdf.com/path/kid?asdf=1234#frag")
+```
 
 ##API specifics:
-```
+
 ###url.child([lastPart])
 
 Setter/getter for the last part of a path:
