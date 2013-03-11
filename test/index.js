@@ -115,6 +115,11 @@ describe("urlgrey", function(){
       urlgrey(url).parent()
         .toString().should.equal('http://asdf.com/path?asdf=1234#frag');
     });
+    it("ignores a trailing slash", function(){
+      var url = "http://asdf.com/path/kid/?asdf=1234#frag";
+      urlgrey(url).parent()
+        .toString().should.equal('http://asdf.com/path?asdf=1234#frag');
+    });
   });
   describe("#child", function(){
     it("returns a url with the given path suffix added", function(){
@@ -124,6 +129,10 @@ describe("urlgrey", function(){
     });
     it("returns the last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
+      urlgrey(url).child().should.equal('kid');
+    });
+    it("ignores a trailing slash", function(){
+      var url = "http://asdf.com/path/kid/?asdf=1234#frag";
       urlgrey(url).child().should.equal('kid');
     });
   });
