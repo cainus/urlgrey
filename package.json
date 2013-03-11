@@ -2,7 +2,7 @@
       "name": "urlgrey",
       "description" : "urlgrey is a library for url querying and manipulation",
       "keywords" : ["url", "uri"],
-      "version": "0.0.4",
+      "version": "0.0.5",
       "bugs": {
        "url": "https://github.com/cainus/urlgrey/issues"
       },
