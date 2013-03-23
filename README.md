@@ -1,4 +1,7 @@
 ![urlgrey](https://raw.github.com/cainus/urlgrey/master/urlgrey.png "urlgrey")
+[![Build Status](https://travis-ci.org/cainus/urlgrey.png?branch=master)](https://travis-ci.org/cainus/urlgrey)
+[![Coverage Status](https://coveralls.io/repos/cainus/urlgrey/badge.png?branch=master)](https://coveralls.io/r/cainus/urlgrey)
+
 
 Urlgrey is a library for url manipulation.  It's got a chainable/fluent interface
 that makes a number of methods available for querying different aspects of a url, 
