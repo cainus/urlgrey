@@ -11,7 +11,7 @@ test-cov:	lib-cov
 
 test-coveralls:	lib-cov
 	echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@URLGREY_COVERAGE=1 $(MAKE) test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
+	@URLGREY_COVERAGE=1 $(MAKE) test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js lib
 	rm -rf lib-cov
 
 .PHONY: test
