@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/cainus/urlgrey.png?branch=master)](https://travis-ci.org/cainus/urlgrey)
 [![Coverage Status](https://coveralls.io/repos/cainus/urlgrey/badge.png?branch=master)](https://coveralls.io/r/cainus/urlgrey)
-
+[![NPM version](https://badge.fury.io/js/urlgrey.png)](http://badge.fury.io/js/urlgrey)
 
 Urlgrey is a library for url manipulation.  It's got a chainable/fluent interface
 that makes a number of methods available for querying different aspects of a url, 
@@ -63,7 +63,7 @@ Setter/getter for the url hostname.
 Get the parent URI of the current URI. (This property is read-only).
 ```javascript
       url.parent();  // returns a new uri object with the uri
-                         // https://user:pass@subdomain.asdf.com/path/?asdf=1234#frag
+                     // https://user:pass@subdomain.asdf.com/path/
 ```   
 
 ###url.password([newPassword]);

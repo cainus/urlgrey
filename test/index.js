@@ -113,19 +113,24 @@ describe("urlgrey", function(){
     it("returns the second-last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
       urlgrey(url).parent()
-        .toString().should.equal('http://asdf.com/path?asdf=1234#frag');
+        .toString().should.equal('http://asdf.com/path');
     });
     it("ignores a trailing slash", function(){
       var url = "http://asdf.com/path/kid/?asdf=1234#frag";
       urlgrey(url).parent()
-        .toString().should.equal('http://asdf.com/path?asdf=1234#frag');
+        .toString().should.equal('http://asdf.com/path');
     });
   });
   describe("#child", function(){
     it("returns a url with the given path suffix added", function(){
       var url = "http://asdf.com/path?asdf=1234#frag";
       urlgrey(url).child('kid here')
-        .toString().should.equal('http://asdf.com/path/kid%20here?asdf=1234#frag');
+        .toString().should.equal('http://asdf.com/path/kid%20here');
+    });
+    it("returns a url with the given path suffixes added", function(){
+      var url = "http://asdf.com/path?asdf=1234#frag";
+      urlgrey(url).child('kid here', 'and here')
+        .toString().should.equal('http://asdf.com/path/kid%20here/and%20here');
     });
     it("returns the last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
