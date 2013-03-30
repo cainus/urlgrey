@@ -138,6 +138,20 @@ Setter/getter for the querystring using a plain string representation. This is l
     
 NOTE: no escaping/unescaping of applicable characters will occur. This must be done manually.
 
+###url.rawChild();
+
+This method is the same as url.child() but does not automatically url-encode
+any part of the input.
+
+###url.rawPath();
+This method is the same as url.path() but does not automatically url-encode
+any part of the path.
+
+###url.rawQuery();
+This method is the same as url.rawQuery() but does not automatically url-encode
+any of the keys or values in an input object.
+
+
 ###url.toJson();
 Returns the json representation of the uri object, which is simply the uri as a string. The output is exactly the same as req.uri.toString(). This method is read-only.
 ```javascript

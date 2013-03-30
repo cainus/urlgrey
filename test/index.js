@@ -60,6 +60,27 @@ describe("urlgrey", function(){
         .toString().should.equal('https://subdomain.asdf.com:9090');
     });
   });
+  describe("#rawPath", function(){
+    it("gets the path", function(){
+      var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
+      urlgrey(url).rawPath().should.equal('/path');
+    });
+    it("sets the path", function(){
+      var url = "https://subdomain.asdf.com";
+      urlgrey(url).rawPath("blah")
+        .toString().should.equal('https://subdomain.asdf.com/blah');
+    });
+    it("does not encode pieces of the path", function(){
+      var url = "https://subdomain.asdf.com";
+      urlgrey(url).rawPath("not encode here", "and/not/here")
+        .toString().should.equal('https://subdomain.asdf.com/not encode here/and/not/here');
+    });
+    it ("sets the path from strings and arrays of strings", function(){
+      var url = "https://asdf.com";
+      urlgrey(url).rawPath(['qwer', '/asdf'], 'qwer/1234/', '/1234/')
+              .toString().should.equal('https://asdf.com/qwer/asdf/qwer/1234/1234');
+    });
+  });
   describe("#path", function(){
     it("gets the path", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
@@ -69,6 +90,11 @@ describe("urlgrey", function(){
       var url = "https://subdomain.asdf.com";
       urlgrey(url).path("blah")
         .toString().should.equal('https://subdomain.asdf.com/blah');
+    });
+    it("url encodes pieces of the path, but not slashes", function(){
+      var url = "https://subdomain.asdf.com";
+      urlgrey(url).path("encode here", "but/not/here")
+        .toString().should.equal('https://subdomain.asdf.com/encode%20here/but/not/here');
     });
     it ("sets the path from strings and arrays of strings", function(){
       var url = "https://asdf.com";
@@ -119,6 +145,26 @@ describe("urlgrey", function(){
       var url = "http://asdf.com/path/kid/?asdf=1234#frag";
       urlgrey(url).parent()
         .toString().should.equal('http://asdf.com/path');
+    });
+  });
+  describe("#rawChild", function(){
+    it("returns a url with the given path suffix added", function(){
+      var url = "http://asdf.com/path?asdf=1234#frag";
+      urlgrey(url).rawChild('kid here')
+        .toString().should.equal('http://asdf.com/path/kid here');
+    });
+    it("returns a url with the given path suffixes added, without escaping", function(){
+      var url = "http://asdf.com/path?asdf=1234#frag";
+      urlgrey(url).rawChild('kid here', 'and here')
+        .toString().should.equal('http://asdf.com/path/kid here/and here');
+    });
+    it("returns the last item in the path if there is no input", function(){
+      var url = "http://asdf.com/path/kid?asdf=1234#frag";
+      urlgrey(url).rawChild().should.equal('kid');
+    });
+    it("ignores a trailing slash", function(){
+      var url = "http://asdf.com/path/kid/?asdf=1234#frag";
+      urlgrey(url).rawChild().should.equal('kid');
     });
   });
   describe("#child", function(){
@@ -186,6 +232,24 @@ describe("urlgrey", function(){
     });
 
   });
+  describe("#rawQuery", function(){
+    it("adds a querystring", function(){
+      urlgrey("http://asdf.com").rawQuery({asdf:'12 34'})
+        .toString().should.equal("http://asdf.com?asdf=12 34");
+    });
+    it("modifies a querystring", function(){
+      urlgrey("http://asdf.com?asdf=5678&b=2").rawQuery({asdf:'12 34'})
+        .toString().should.equal("http://asdf.com?asdf=12 34&b=2");
+    });
+    it("clears a querystring", function(){
+      urlgrey("http://asdf.com?asdf=5678").rawQuery(false)
+        .toString().should.equal("http://asdf.com");
+    });
+    it("extracts a querystring as an object", function(){
+      urlgrey("http://asdf.com?asdf=56%2078").rawQuery()
+        .should.eql({asdf:'56 78'});
+    });
+  });
   describe("#query", function(){
     it("adds a querystring", function(){
       urlgrey("http://asdf.com").query({asdf:'12 34'})
@@ -200,8 +264,8 @@ describe("urlgrey", function(){
         .toString().should.equal("http://asdf.com");
     });
     it("extracts a querystring as an object", function(){
-      urlgrey("http://asdf.com?asdf=5678").query()
-        .should.eql({asdf:'5678'});
+      urlgrey("http://asdf.com?asdf=56%2078").query()
+        .should.eql({asdf:'56 78'});
     });
   });
   describe('#encode', function(){
