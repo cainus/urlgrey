@@ -146,6 +146,15 @@ describe("urlgrey", function(){
       urlgrey(url).parent()
         .toString().should.equal('http://asdf.com/path');
     });
+    it("throws an exception when no parent path exists", function(){
+      var url = "http://asdf.com/";
+      try {
+        urlgrey(url).parent();
+        should.fail("expected exception was not raised.");
+      } catch (ex){
+        ex.message.should.equal('The current path has no parent path');
+      }
+    });
   });
   describe("#rawChild", function(){
     it("returns a url with the given path suffix added", function(){
