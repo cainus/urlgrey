@@ -187,6 +187,11 @@ describe("urlgrey", function(){
       urlgrey(url).child('kid here', 'and here')
         .toString().should.equal('http://asdf.com/path/kid%20here/and%20here');
     });
+    it("returns a url with the given path suffix added even if it's 0", function(){
+      var url = "http://asdf.com/path?asdf=1234#frag";
+      urlgrey(url).child(0)
+        .toString().should.equal('http://asdf.com/path/0');
+    });
     it("returns the last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
       urlgrey(url).child().should.equal('kid');

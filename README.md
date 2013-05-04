@@ -148,7 +148,7 @@ This method is the same as url.path() but does not automatically url-encode
 any part of the path.
 
 ###url.rawQuery();
-This method is the same as url.rawQuery() but does not automatically url-encode
+This method is the same as url.query() but does not automatically url-encode
 any of the keys or values in an input object.
 
 
