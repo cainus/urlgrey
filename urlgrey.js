@@ -38,7 +38,7 @@ var getAuth = function(uri, hostname){
 },{}],2:[function(require,module,exports){
 var urlParse = require('url').parse;
 var querystring = require('qs');
-var isBrowser = !(typeof module !== 'undefined' && module.exports);
+var isBrowser = (typeof window !== "undefined");
 
 // qs library appears to return a __proto__
 // property when run in the browser,
