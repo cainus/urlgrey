@@ -1,5 +1,12 @@
-var should = require('should');
-var urlgrey = require('../index');
+var isBrowser = !(typeof module !== 'undefined' && module.exports);
+if (!isBrowser){
+  // non-browser code
+  var chai = require('chai');
+  chai.should();
+  var urlgrey = require('../index');
+}
+
+var expect = chai.expect();
 
 describe("urlgrey", function(){
   describe("chainability", function(){
@@ -30,10 +37,17 @@ describe("urlgrey", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).hostname().should.equal('subdomain.asdf.com');
     });
-    it("gets the hostname even if unset", function(){
-      var url = "/path?asdf=1234#frag";
-      urlgrey(url).hostname().should.equal('localhost');
-    });
+    if (isBrowser){
+      it("gets the hostname even if unset", function(){
+        var url = "/path?asdf=1234#frag";
+        var u = urlgrey(url);
+        if (u.protocol() === 'file'){
+          chai.expect(u.hostname()).to.eql('');
+        } else {
+          u.hostname().should.equal('localhost');
+        }
+      });
+    }
     it("sets the hostname", function(){
       var url = "http://subdomain.asdf.com";
       urlgrey(url).hostname("blah")
@@ -45,14 +59,14 @@ describe("urlgrey", function(){
       var url = "https://user:pass@subdomain.asdf.com:9090";
       urlgrey(url).port().should.equal(9090);
     });
-    it("gets the port as 80 when it's missing", function(){
+    it("gets a correct default port when it's missing", function(){
       var url = "https://user:pass@subdomain.asdf.com";
-      urlgrey(url).port().should.equal(80);
+      urlgrey(url).port().should.equal(443);
     });
     it("omits the port when it's 80", function(){
-      var url = "https://subdomain.asdf.com:9090";
+      var url = "http://subdomain.asdf.com:9090";
       urlgrey(url).port(80)
-        .toString().should.equal('https://subdomain.asdf.com');
+        .toString().should.equal('http://subdomain.asdf.com');
     });
     it("sets the port", function(){
       var url = "https://subdomain.asdf.com";
@@ -201,6 +215,28 @@ describe("urlgrey", function(){
       urlgrey(url).child().should.equal('kid');
     });
   });
+  describe("#parsed", function(){
+    it("returns some stuff", function(){
+      var url = "http://gdizzle:pazz@asdf.com:5678/path/kid/?asdf=1234#frag";
+      var actual = urlgrey(url).parsed();
+      var expected = {
+         "protocol": "http",
+         "auth": "gdizzle:pazz",
+         "host": "asdf.com:5678",
+         "port": 5678,
+         "hostname": "asdf.com",
+         "hash": "frag",
+         "search": "?asdf=1234",
+         "query": "asdf=1234",
+         "pathname": "/path/kid/",
+         "path": "/path/kid/?asdf=1234",
+         "href": "http://gdizzle:pazz@asdf.com:5678/path/kid/?asdf=1234#frag",
+         "username": "gdizzle",
+         "password": "pazz"
+      };
+      chai.expect(actual).to.eql(expected);
+    });
+  });
   describe("#toString", function(){
     it("returns the input string if unmodified", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
@@ -208,7 +244,8 @@ describe("urlgrey", function(){
     });
     it("returns an absolute uri even if one is not given", function(){
       var url = "/path?asdf=1234#frag";
-      urlgrey(url).toString().should.equal('http://localhost/path?asdf=1234#frag');
+      urlgrey(url).toString()
+        .should.match(/^http:\/\/|file:\/\//);
     });
   });
   describe("#protocol", function(){
@@ -216,10 +253,19 @@ describe("urlgrey", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       urlgrey(url).protocol().should.equal('https');
     });
-    it("gets the protocol as http if unset", function(){
-      var url = "/path?asdf=1234#frag";
-      urlgrey(url).protocol().should.equal('http');
-    });
+
+    if (isBrowser){
+        it ("gets the protocol as the current one if unset", function(){
+          urlgrey('').protocol()
+            .should.equal(window.location.href.slice(0, 4));
+        });
+    } else {
+      it("gets the protocol as http if unset", function(){
+        var url = "/path?asdf=1234#frag";
+        urlgrey(url).protocol().should.equal('http');
+      });
+    }
+
     it("sets the protocol", function(){
       var url = "https://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
       var expected = "http://user:pass@subdomain.asdf.com/path?asdf=1234#frag";
@@ -237,8 +283,9 @@ describe("urlgrey", function(){
         .toString().should.equal("http://s.asdf.com?qwer=1235");
     });
     it("gets the queryString", function(){
+      chai.expect(
       urlgrey("http://s.asdf.com/?qwer=1234").queryString()
-        .should.equal("qwer=1234");
+      ).to.equal("qwer=1234");
     });
     it("'roundtrips' the queryString", function(){
       urlgrey("http://s.asdf.com/?qwer=1234").queryString('asdf=1234')
@@ -260,8 +307,9 @@ describe("urlgrey", function(){
         .toString().should.equal("http://asdf.com");
     });
     it("extracts a querystring as an object", function(){
+      chai.expect(
       urlgrey("http://asdf.com?asdf=56%2078").rawQuery()
-        .should.eql({asdf:'56 78'});
+      ).to.eql({asdf:'56 78'});
     });
   });
   describe("#query", function(){
@@ -278,8 +326,9 @@ describe("urlgrey", function(){
         .toString().should.equal("http://asdf.com");
     });
     it("extracts a querystring as an object", function(){
-      urlgrey("http://asdf.com?asdf=56%2078").query()
-        .should.eql({asdf:'56 78'});
+      chai.expect(
+        urlgrey("http://asdf.com?asdf=56%2078").query()
+      ).to.eql({asdf:'56 78'});
     });
   });
   describe('#encode', function(){

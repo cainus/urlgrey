@@ -171,3 +171,27 @@ Setter/getter for the username portion of the url.
       url.username("newuser"); // returns a new uri object with the 
                                // uri https://newuser:pass@subdomain.asdf.com/path/kid/?asdf=1234#frag
 ```
+
+
+
+##Contributing:
+###Testing:
+####Run the node tests:
+* `make test`
+####Run the browser file:// tests:
+* `make browser-build`
+* ...then open test.html in a browser
+####Run the browser tests on a real server:
+* `make browser-build`
+* `python -m SimpleHTTPServer 9999`
+* ...then open http://localhost://9999/test.html in a browser
+
+###Building before committing
+* `make precommit`
+
+###Running node tests with a coverage report
+* `make test-cov`
+
+
+
+ 
