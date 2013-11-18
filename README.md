@@ -178,9 +178,11 @@ Setter/getter for the username portion of the url.
 ###Testing:
 ####Run the node tests:
 * `make test`
+
 ####Run the browser file:// tests:
 * `make browser-build`
 * ...then open test.html in a browser
+
 ####Run the browser tests on a real server:
 * `make browser-build`
 * `python -m SimpleHTTPServer 9999`
