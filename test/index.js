@@ -23,6 +23,7 @@ describe("urlgrey", function(){
       url.hash('http');
       url.queryString('http=1234');
       url.query(false);
+      url.extendedPath("/asdf?qwer=asdf#swqertwert23");
       url.toString().should.equal(urlStr); // original object is unmodified
     });
   });
@@ -168,6 +169,17 @@ describe("urlgrey", function(){
       } catch (ex){
         ex.message.should.equal('The current path has no parent path');
       }
+    });
+  });
+  describe("#extendedPath", function(){
+    it("returns the part of the url after the host:port", function(){
+      var url = "http://asdf.com:8080/path?asdf=1234#frag";
+      urlgrey(url).extendedPath().should.equal('/path?asdf=1234#frag');
+    });
+    it("lets you set the part of the url after the host:port", function(){
+      var url = "http://asdf.com:8080/path?asdf=1234#frag";
+      urlgrey(url).extendedPath('/asdf?qwer=1234#fraggle').toString()
+        .should.equal('http://asdf.com:8080/asdf?qwer=1234#fraggle');
     });
   });
   describe("#rawChild", function(){

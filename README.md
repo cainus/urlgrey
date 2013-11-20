@@ -73,6 +73,16 @@ Setter/getter for the password portion of the url.
       url.password("newpass"); // returns a new uri object with the uri
                             // https://user:newpass@subdomain.asdf.com/path/kid/?asdf=1234#frag
 ```   
+###url.extendedPath([mixed]);
+Setter/getter for the path, querystring and fragment portion of the url
+all at once.
+```javascript
+      url.extendedPath(); // returns '/path/kid?asdf=1234#frag'
+      url.extendedPath("/newpath?new=query#newfrag"); // returns a new uri object with the uri
+                               // https://user:newpass@subdomain.asdf.com/newpath?new=query#newfrag
+
+```   
+```   
 ###url.path([mixed]);
 Setter/getter for the path portion of the url.
 ```javascript
@@ -80,7 +90,7 @@ Setter/getter for the path portion of the url.
       url.path("newpath"); // returns a new uri object with the uri
                                // https://user:newpass@subdomain.asdf.com/newpath
 
-      // ALSO, req.uri.path() can take arrays of strings as input as well:
+      // ALSO, .path() can take arrays of strings as input as well:
       url.path(['qwer', '/asdf'], 'qwer/1234/', '/1234/'); 
                       // this returns a new uri object with the uri
                       // https://user:newpass@subdomain.asdf.com/qwer/asdf/qwer/1234/1234
@@ -129,7 +139,7 @@ NOTE: an input object will remove an existing name-value pair where they have th
 
 ###url.queryString([newQueryString]);
 
-Setter/getter for the querystring using a plain string representation. This is lower-level than $.req.query(), but allows complete control of the querystring.
+Setter/getter for the querystring using a plain string representation. This is lower-level than .query(), but allows complete control of the querystring.
 ```javascript
       url.queryString(); // returns asdf=1234  (notice there is no leading '?')
       url.queryString("blah"); // returns a new uri object with a new querystring
@@ -153,7 +163,7 @@ any of the keys or values in an input object.
 
 
 ###url.toJson();
-Returns the json representation of the uri object, which is simply the uri as a string. The output is exactly the same as req.uri.toString(). This method is read-only.
+Returns the json representation of the uri object, which is simply the uri as a string. The output is exactly the same as .toString(). This method is read-only.
 ```javascript
   url.toJson(); // returns "https://user:pass@subdomain.asdf.com/path/kid/?asdf=1234#frag"
 ```   
