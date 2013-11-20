@@ -8,7 +8,7 @@ exports.parse = function(uri){
   // pathname, search, hash, host
   var fields = ['protocol', 'hostname', 'port', 'pathname',
                 'search', 'hash', 'host'];
-  output = {};
+  var output = {};
   for( var i = 0; i < fields.length; i++){
     output[fields[i]] = a[fields[i]].toString();
   }
