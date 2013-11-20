@@ -1,7 +1,6 @@
-var dir = './lib/';
+module.exports = require('./lib/urlgrey');
 if (process.env.URLGREY_COVERAGE){
-  dir = './lib-cov/';
+  module.exports = require('./lib-cov/urlgrey');
 }
 
-module.exports = require(dir + 'urlgrey');
 

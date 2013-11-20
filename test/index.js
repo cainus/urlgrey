@@ -43,7 +43,8 @@ describe("urlgrey", function(){
         var url = "/path?asdf=1234#frag";
         var u = urlgrey(url);
         if (u.protocol() === 'file'){
-          chai.expect(u.hostname()).to.eql('');
+          // chrome uses localhost.  other browsers don't
+          chai.expect((u.hostname() === '') || u.hostname() === 'localhost').to.eql(true);
         } else {
           u.hostname().should.equal('localhost');
         }
