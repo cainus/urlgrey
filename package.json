@@ -36,8 +36,8 @@
   },
   "testling": {
     "browsers": [
-      "ie7", "ie8", "ie9",
-      "firefox/25", "chrome/31", "opera/17", "safari/5.1"
+      "ie10", "ie11",
+      "firefox/25", "firefox/8", "chrome/6", "chrome/18", "chrome/31", "opera/17", "safari/5.1"
     ],
     "harness" : "mocha",
     "files": "test/index.js"
