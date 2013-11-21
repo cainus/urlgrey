@@ -46,7 +46,7 @@ describe("urlgrey", function(){
           // chrome uses localhost.  other browsers don't
           chai.expect((u.hostname() === '') || u.hostname() === 'localhost').to.eql(true);
         } else {
-          u.hostname().should.equal('localhost');
+          chai.expect(u.hostname()).should.equal(window.location.hostname);
         }
       });
     }

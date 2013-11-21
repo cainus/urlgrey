@@ -34,9 +34,6 @@
   "directories": {
     "test": "test"
   },
-  "browser": {
-    "url": "./browser/url.js"
-  },
   "testling": {
     "browsers": [
       "ie7", "ie8", "ie9",
