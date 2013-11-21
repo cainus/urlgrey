@@ -91,6 +91,9 @@ UrlGrey.prototype.parsed = function(){
         p.password = auth[1];
       }
     }
+    if (isBrowser){
+      p.hostname = p.hostname || defaults.hostname;
+    }
   }
 
   // enforce only returning these properties

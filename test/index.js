@@ -44,9 +44,9 @@ describe("urlgrey", function(){
         var u = urlgrey(url);
         if (u.protocol() === 'file'){
           // chrome uses localhost.  other browsers don't
-          chai.expect((u.hostname() === '') || u.hostname() === 'localhost').to.eql(true);
+          chai.expect((u.hostname() === '') || (u.hostname() === 'localhost')).to.eql(true);
         } else {
-          chai.expect(u.hostname()).should.equal(window.location.hostname);
+          chai.expect(u.hostname()).to.equal(window.location.hostname + '');
         }
       });
     }
