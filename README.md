@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/cainus/urlgrey/badge.png?branch=master)](https://coveralls.io/r/cainus/urlgrey)
 [![NPM version](https://badge.fury.io/js/urlgrey.png)](http://badge.fury.io/js/urlgrey)
 
-[![browser support](http://ci.testling.com/cainus/urlgrey.png)](http://ci.testling.com/cainus/urlgrey)
+[![browser support](https://ci.testling.com/cainus/urlgrey.png)](http://ci.testling.com/cainus/urlgrey)
 
 Urlgrey is a library for url manipulation.  It's got a chainable/fluent interface
 that makes a number of methods available for querying different aspects of a url, 
