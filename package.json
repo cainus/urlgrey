@@ -5,7 +5,7 @@
     "url",
     "uri"
   ],
-  "version": "0.1.1",
+  "version": "0.2.0",
   "bugs": {
     "url": "https://github.com/cainus/urlgrey/issues"
   },
@@ -16,15 +16,17 @@
     "Gregg Caines <gregg@caines.ca> (http://caines.ca)"
   ],
   "dependencies": {
-    "qs": "0.6.5",
-    "chai": "1.8.1"
+    "qs": "0.6.5"
   },
   "devDependencies": {
+    "jshint": "2.3.0",
     "jscoverage": "0.3.6",
     "mocha-lcov-reporter": "0.0.1",
     "coveralls": "2.0.4",
     "mocha": "1.8.1",
     "browserify": "2.35.2",
+    "chai": "1.8.1",
+    "istanbul": "0.1.45",
     "uglify-js": "2.4.3"
   },
   "engine": {
@@ -36,10 +38,18 @@
   },
   "testling": {
     "browsers": [
-      "ie10", "ie11",
-      "firefox/25", "firefox/8", "chrome/6", "chrome/18", "chrome/31", "opera/17", "safari/5.1"
+      "ie10",
+      "ie11",
+      "firefox/nightly",
+      "firefox/25",
+      "firefox/8",
+      "chrome/6",
+      "chrome/18",
+      "chrome/31",
+      "chrome/canary",
+      "opera/17"
     ],
-    "harness" : "mocha",
+    "harness": "mocha",
     "files": "test/index.js"
   },
   "repository": {

@@ -1,5 +1,8 @@
 REPORTER = spec
 
+lint:
+	./node_modules/.bin/jshint ./lib ./test ./index.js
+
 browser-test:
 	$(MAKE) browser-build
 	gnome-open test.html
@@ -24,16 +27,15 @@ precommit:
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha -b --reporter $(REPORTER)
 
-lib-cov:
-	jscoverage lib lib-cov
+test-cov:
+	$(MAKE) lint
+	@NODE_ENV=test ./node_modules/.bin/istanbul cover \
+	./node_modules/mocha/bin/_mocha -- -R spec
 
-test-cov:	lib-cov
-	@URLGREY_COVERAGE=1 $(MAKE) test REPORTER=html-cov > coverage.html
-	rm -rf lib-cov
-
-test-coveralls:	lib-cov
+test-coveralls:
 	echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@URLGREY_COVERAGE=1 $(MAKE) test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
-	rm -rf lib-cov
+	@NODE_ENV=test ./node_modules/.bin/istanbul cover \
+	./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && \
+		cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
 .PHONY: test
