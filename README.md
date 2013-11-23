@@ -184,6 +184,16 @@ Setter/getter for the username portion of the url.
                                // uri https://newuser:pass@subdomain.asdf.com/path/kid/?asdf=1234#frag
 ```
 
+##Installation:
+### node.js:
+`npm install urlgrey --save`
+
+Also!  If you're using urlgrey in an http application, see [urlgrey-connect](https://github.com/cainus/urlgrey-connect).  It gives you an urlgrey object already instantiated with the request url as req.uri in all your request handlers.
+### in the browser:
+Lots of options:
+* grab urlgrey.js from the root of this repo for [browserify](http://browserify.org/)-built, unminified version.
+* grab urlgrey.min.js from the root of this repo for a [browserify](http://browserify.org/)-built, minified version.
+* use [browserify](http://browserify.org/) and include this like any other node package.
 
 
 ##Contributing:
