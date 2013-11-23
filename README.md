@@ -84,7 +84,7 @@ all at once.
                                // https://user:newpass@subdomain.asdf.com/newpath?new=query#newfrag
 
 ```   
-```   
+
 ###url.path([mixed]);
 Setter/getter for the path portion of the url.
 ```javascript
