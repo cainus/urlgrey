@@ -12,11 +12,14 @@
   "scripts": {
     "test": "make test-coveralls"
   },
+  "browser": {
+    "url" : "./browser/url.js",
+    "querystring" : "./browser/querystring.js"
+  },
   "maintainers": [
     "Gregg Caines <gregg@caines.ca> (http://caines.ca)"
   ],
   "dependencies": {
-    "qs": "0.6.5"
   },
   "devDependencies": {
     "jshint": "2.3.0",
