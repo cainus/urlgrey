@@ -75,7 +75,7 @@ Setter/getter for the password portion of the url.
       url.password("newpass"); // returns a new uri object with the uri
                             // https://user:newpass@subdomain.asdf.com/path/kid/?asdf=1234#frag
 ```   
-###url.extendedPath([mixed]);
+###url.extendedPath([string]);
 Setter/getter for the path, querystring and fragment portion of the url
 all at once.
 ```javascript
