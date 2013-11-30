@@ -5,7 +5,7 @@
     "url",
     "uri"
   ],
-  "version": "0.3.0",
+  "version": "0.3.1",
   "bugs": {
     "url": "https://github.com/cainus/urlgrey/issues"
   },
@@ -13,13 +13,14 @@
     "test": "make test-coveralls"
   },
   "browser": {
-    "url" : "./browser/url.js",
-    "querystring" : "./browser/querystring.js"
+    "url": "./browser/url.js",
+    "querystring": "./browser/querystring.js"
   },
   "maintainers": [
     "Gregg Caines <gregg@caines.ca> (http://caines.ca)"
   ],
   "dependencies": {
+    "tape": "~2.3.0"
   },
   "devDependencies": {
     "jshint": "2.3.0",
