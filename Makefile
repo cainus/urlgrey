@@ -1,7 +1,7 @@
 REPORTER = spec
 
 lint:
-	./node_modules/.bin/jshint ./lib ./test ./index.js
+	./node_modules/.bin/jshint ./test ./index.js ./util.js
 
 browser-test:
 	$(MAKE) browser-build
@@ -9,13 +9,13 @@ browser-test:
 
 browser-build-min:
 	@rm -f urlgrey.min.js
-	@./node_modules/.bin/browserify ./lib/urlgrey.js \
+	@./node_modules/.bin/browserify index.js \
 		-s urlgrey | \
 	./node_modules/.bin/uglifyjs > urlgrey.min.js
 
 browser-build:
 	@rm -f urlgrey.js
-	@./node_modules/.bin/browserify ./lib/urlgrey.js \
+	@./node_modules/.bin/browserify index.js \
 		-s urlgrey > urlgrey.js
 
 precommit:
@@ -25,6 +25,7 @@ precommit:
 	echo "Artifacts built!"
 
 test:
+	$(MAKE) lint
 	@NODE_ENV=test ./node_modules/.bin/mocha -b --reporter $(REPORTER)
 
 test-cov:

@@ -23,14 +23,14 @@
 // Query String Utilities
 
 var QueryString = exports;
-var isString = require('../lib/util').isString;
-var isArray = require('../lib/util').isArray;
-var isBoolean = require('../lib/util').isBoolean;
-var isNumber = require('../lib/util').isNumber;
-var isObject = require('../lib/util').isObject;
-var isNull = require('../lib/util').isNull;
-var keys = require('../lib/util').keys;
-var map = require('../lib/util').map;
+var isString = require('../util').isString;
+var isArray = require('../util').isArray;
+var isBoolean = require('../util').isBoolean;
+var isNumber = require('../util').isNumber;
+var isObject = require('../util').isObject;
+var isNull = require('../util').isNull;
+var keys = require('../util').keys;
+var map = require('../util').map;
 
 // If obj.hasOwnProperty has been overridden, then calling
 // obj.hasOwnProperty(prop) will break.
@@ -147,7 +147,7 @@ QueryString.parse = QueryString.decode = function(qs, sep, eq, options) {
   return obj;
 };
 
-},{"../lib/util":4}],2:[function(require,module,exports){
+},{"../util":4}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -176,10 +176,10 @@ if (!String.prototype.trim) {
   };
 }
 
-var isObject = require('../lib/util').isObject;
-var isString = require('../lib/util').isString;
-var keys = require('../lib/util').keys;
-var substr = require('../lib/util').substr;
+var isObject = require('../util').isObject;
+var isString = require('../util').isString;
+var keys = require('../util').keys;
+var substr = require('../util').substr;
 
 exports.parse = urlParse;
 exports.format = urlFormat;
@@ -573,7 +573,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"../lib/util":4,"querystring":1}],3:[function(require,module,exports){
+},{"../util":4,"querystring":1}],3:[function(require,module,exports){
 var urlParse = require('url').parse;
 var querystring = require('querystring');
 var isBrowser = (typeof window !== "undefined");

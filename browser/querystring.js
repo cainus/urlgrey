@@ -22,14 +22,14 @@
 // Query String Utilities
 
 var QueryString = exports;
-var isString = require('../lib/util').isString;
-var isArray = require('../lib/util').isArray;
-var isBoolean = require('../lib/util').isBoolean;
-var isNumber = require('../lib/util').isNumber;
-var isObject = require('../lib/util').isObject;
-var isNull = require('../lib/util').isNull;
-var keys = require('../lib/util').keys;
-var map = require('../lib/util').map;
+var isString = require('../util').isString;
+var isArray = require('../util').isArray;
+var isBoolean = require('../util').isBoolean;
+var isNumber = require('../util').isNumber;
+var isObject = require('../util').isObject;
+var isNull = require('../util').isNull;
+var keys = require('../util').keys;
+var map = require('../util').map;
 
 // If obj.hasOwnProperty has been overridden, then calling
 // obj.hasOwnProperty(prop) will break.

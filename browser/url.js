@@ -26,10 +26,10 @@ if (!String.prototype.trim) {
   };
 }
 
-var isObject = require('../lib/util').isObject;
-var isString = require('../lib/util').isString;
-var keys = require('../lib/util').keys;
-var substr = require('../lib/util').substr;
+var isObject = require('../util').isObject;
+var isString = require('../util').isString;
+var keys = require('../util').keys;
+var substr = require('../util').substr;
 
 exports.parse = urlParse;
 exports.format = urlFormat;
