@@ -237,7 +237,7 @@ UrlGrey.prototype.path = function(){
     str = str.replace(/\/$/, '');  // remove all trailing slashes
     args = str.split('/');
     for(var i = 0; i < args.length; i++){
-      args[i] = encodeURIComponent(args[i]);
+      args[i] = this.encode(args[i]);
     }
     str = args.join('/');
     if (str[0] !== '/'){ str = '/' + str; }
@@ -262,11 +262,19 @@ UrlGrey.prototype.rawPath = function(){
 };
 
 UrlGrey.prototype.encode = function(str){
-  return encodeURIComponent(str);
+  try {
+    return encodeURIComponent(str);
+  } catch (ex) {
+    return querystring.escape(str);
+  }
 };
 
 UrlGrey.prototype.decode = function(str){
-  return decodeURIComponent(str);
+  try {
+    return decodeURIComponent(str);
+  } catch (ex) {
+    return querystring.unescape(str);
+  }
 };
 
 UrlGrey.prototype.parent = function(){

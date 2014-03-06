@@ -186,13 +186,13 @@ describe("urlgrey", function(){
   describe("#rawChild", function(){
     it("returns a url with the given path suffix added", function(){
       var url = "http://asdf.com/path?asdf=1234#frag";
-      urlgrey(url).rawChild('kid here')
-        .toString().should.equal('http://asdf.com/path/kid here');
+      urlgrey(url).rawChild('{kid here}')
+        .toString().should.equal('http://asdf.com/path/{kid here}');
     });
     it("returns a url with the given path suffixes added, without escaping", function(){
       var url = "http://asdf.com/path?asdf=1234#frag";
-      urlgrey(url).rawChild('kid here', 'and here')
-        .toString().should.equal('http://asdf.com/path/kid here/and here');
+      urlgrey(url).rawChild('{kid here}', '{and here}')
+        .toString().should.equal('http://asdf.com/path/{kid here}/{and here}');
     });
     it("returns the last item in the path if there is no input", function(){
       var url = "http://asdf.com/path/kid?asdf=1234#frag";
