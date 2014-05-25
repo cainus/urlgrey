@@ -270,11 +270,7 @@ UrlGrey.prototype.encode = function(str){
 };
 
 UrlGrey.prototype.decode = function(str){
-  try {
-    return decodeURIComponent(str);
-  } catch (ex) {
-    return querystring.unescape(str);
-  }
+  return decode(str);
 };
 
 UrlGrey.prototype.parent = function(){
@@ -311,17 +307,17 @@ UrlGrey.prototype.child = function(suffixes){
   suffixes = argsArray(arguments);
   if (suffixes.length > 0){
     return this.query(false).hash('').path(this.path(), suffixes);
-  } else {
-    // if no suffix, return the child
-    var pieces = this.path().split("/");
-    var last = arrLast(pieces);
-    if ((pieces.length > 1) && (last === '')){
-      // ignore trailing slashes
-      pieces.pop();
-      last = arrLast(pieces);
-    }
-    return last;
   }
+
+  // if no suffix, return the child
+  var pieces = pathPieces(this.path());
+  var last = arrLast(pieces);
+  if ((pieces.length > 1) && (last === '')){
+    // ignore trailing slashes
+    pieces.pop();
+    last = arrLast(pieces);
+  }
+  return last;
 };
 
 UrlGrey.prototype.toJSON = function(){
@@ -353,6 +349,21 @@ UrlGrey.prototype.toString = function(){
   return retval;
 };
 
+var pathPieces = function(path){
+  var pieces = path.split('/');
+  for(var i = 0; i < pieces.length; i++){
+    pieces[i] = decode(pieces[i]);
+  }
+  return pieces;
+};
+
+var decode = function(str){
+  try {
+    return decodeURIComponent(str);
+  } catch (ex) {
+    return querystring.unescape(str);
+  }
+};
 
 var portString = function(o){
   if (o.protocol() === 'https'){

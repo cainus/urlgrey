@@ -227,6 +227,14 @@ describe("urlgrey", function(){
       var url = "http://asdf.com/path/kid/?asdf=1234#frag";
       urlgrey(url).child().should.equal('kid');
     });
+    it("url-decodes the child if it's encoded", function(){
+      var url = "http://asdf.com/path/the%20kid";
+      urlgrey(url).child().should.equal('the kid');
+    });
+    it("url-encodes the child if necessary", function(){
+      var url = "http://asdf.com/path/";
+      urlgrey(url).child('the kid').toString().should.equal('http://asdf.com/path/the%20kid');
+    });
   });
   describe("#parsed", function(){
     it("returns some stuff", function(){

@@ -5,7 +5,7 @@
     "url",
     "uri"
   ],
-  "version": "0.3.3",
+  "version": "0.4.0",
   "bugs": {
     "url": "https://github.com/cainus/urlgrey/issues"
   },
@@ -20,7 +20,7 @@
     "Gregg Caines <gregg@caines.ca> (http://caines.ca)"
   ],
   "dependencies": {
-    "tape": "~2.3.0"
+    "tape": "2.3.0"
   },
   "devDependencies": {
     "jshint": "2.3.0",
