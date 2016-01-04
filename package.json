@@ -20,9 +20,9 @@
     "Gregg Caines <gregg@caines.ca> (http://caines.ca)"
   ],
   "dependencies": {
-    "tape": "2.3.0"
   },
   "devDependencies": {
+    "tape": "2.3.0",
     "jshint": "2.3.0",
     "jscoverage": "0.3.6",
     "mocha-lcov-reporter": "0.0.1",
