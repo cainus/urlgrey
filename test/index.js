@@ -6,8 +6,6 @@ if (!isBrowser){
   var urlgrey = require('../index');
 }
 
-var expect = chai.expect();
-
 describe("urlgrey", function(){
   describe("chainability", function(){
     it("doesn't over-write the original url", function(){

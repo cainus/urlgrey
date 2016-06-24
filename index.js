@@ -11,21 +11,23 @@ var getDefaults = function(){
   return defaults;
 };
 
-if(!Array.isArray) {
+if (!Array.isArray) {
   Array.isArray = function (arg) {
-    return Object.prototype.toString.call(arg) == '[object Array]';
+    return Object.prototype.toString.call(arg) === '[object Array]';
   };
 }
 
 var objectEach = function(obj, cb){
-  for(var k in obj){
-    cb(obj[k], k);
+  for (var k in obj){
+    if (obj.hasOwnProperty(k)) {
+      cb(obj[k], k);  
+    }
   }
 };
 
 var argsArray = function(obj){
-    if (!obj) return [];
-    if (Array.isArray(obj)) return slice.call(obj);
+    if (!obj) { return []; }
+    if (Array.isArray(obj)) { return obj.slice() ; }
     var args = [];
     objectEach(obj, function(v, k){
       args[k] = v;
@@ -38,8 +40,8 @@ var arrLast = function(arr){
 };
 
 var arrFlatten = function(input, output) {
-  if (!output) output = [];
-  for(var i = 0; i < input.length; i++){
+  if (!output) { output = []; }
+  for (var i = 0; i < input.length; i++){
     var value = input[i];
     if (Array.isArray(value)) {
         arrFlatten(value, output);
@@ -172,7 +174,7 @@ UrlGrey.prototype.query = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v == null || v === false){
+      if (v === null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -203,7 +205,7 @@ UrlGrey.prototype.rawQuery = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v == null || v === false){
+      if (v === null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -329,7 +331,7 @@ UrlGrey.prototype.toString = function(){
   var retval = this.protocol() + '://';
   if (this.protocol() !== 'file'){
     var userinfo = p.username + ':' + p.password;
-    if (userinfo != ':'){
+    if (userinfo !== ':'){
       retval += userinfo + '@';
     }
     retval += p.hostname;

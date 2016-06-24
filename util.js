@@ -1,12 +1,12 @@
 
 var isObject = function (o){
-  return (typeof o == "object") &&
+  return (typeof o === "object") &&
          (o !== null) &&
          (Object.prototype.toString.call(o) === '[object Object]');
 };
 exports.isObject = isObject;
 exports.isString = function(o){
-  return Object.prototype.toString.call(o) == '[object String]';
+  return Object.prototype.toString.call(o) === '[object String]';
 };
 exports.isArray = function(o){
   return Object.prototype.toString.call(o) === "[object Array]";
@@ -39,7 +39,7 @@ exports.keys = function (object) {
 if ('ab'.substr(-1) !== 'b') {
   exports.substr = function (str, start, length) {
     // did we get a negative start, calculate how much it is from the beginning of the string
-    if (start < 0) start = str.length + start;
+    if (start < 0) { start = str.length + start; }
 
     // call the original function
     return str.substr(start, length);
@@ -52,7 +52,7 @@ if ('ab'.substr(-1) !== 'b') {
 
 // Array.prototype.map is supported in IE9
 exports.map = function map(xs, fn) {
-  if (xs.map) return xs.map(fn);
+  if (xs.map) { return xs.map(fn); }
   var out = new Array(xs.length);
   for (var i = 0; i < xs.length; i++) {
     out[i] = fn(xs[i], i, xs);
