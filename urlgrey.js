@@ -587,21 +587,23 @@ var getDefaults = function(){
   return defaults;
 };
 
-if(!Array.isArray) {
+if (!Array.isArray) {
   Array.isArray = function (arg) {
-    return Object.prototype.toString.call(arg) == '[object Array]';
+    return Object.prototype.toString.call(arg) === '[object Array]';
   };
 }
 
 var objectEach = function(obj, cb){
-  for(var k in obj){
-    cb(obj[k], k);
+  for (var k in obj){
+    if (obj.hasOwnProperty(k)) {
+      cb(obj[k], k);  
+    }
   }
 };
 
 var argsArray = function(obj){
-    if (!obj) return [];
-    if (Array.isArray(obj)) return slice.call(obj);
+    if (!obj) { return []; }
+    if (Array.isArray(obj)) { return obj.slice() ; }
     var args = [];
     objectEach(obj, function(v, k){
       args[k] = v;
@@ -614,8 +616,8 @@ var arrLast = function(arr){
 };
 
 var arrFlatten = function(input, output) {
-  if (!output) output = [];
-  for(var i = 0; i < input.length; i++){
+  if (!output) { output = []; }
+  for (var i = 0; i < input.length; i++){
     var value = input[i];
     if (Array.isArray(value)) {
         arrFlatten(value, output);
@@ -748,7 +750,7 @@ UrlGrey.prototype.query = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v === null){
+      if (v === null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -779,7 +781,7 @@ UrlGrey.prototype.rawQuery = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v === null){
+      if (v === null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -905,7 +907,7 @@ UrlGrey.prototype.toString = function(){
   var retval = this.protocol() + '://';
   if (this.protocol() !== 'file'){
     var userinfo = p.username + ':' + p.password;
-    if (userinfo != ':'){
+    if (userinfo !== ':'){
       retval += userinfo + '@';
     }
     retval += p.hostname;
@@ -1031,13 +1033,13 @@ function addPropertyGetterSetter(propertyName, methodName){
 },{"querystring":1,"url":2}],4:[function(require,module,exports){
 
 var isObject = function (o){
-  return (typeof o == "object") &&
+  return (typeof o === "object") &&
          (o !== null) &&
          (Object.prototype.toString.call(o) === '[object Object]');
 };
 exports.isObject = isObject;
 exports.isString = function(o){
-  return Object.prototype.toString.call(o) == '[object String]';
+  return Object.prototype.toString.call(o) === '[object String]';
 };
 exports.isArray = function(o){
   return Object.prototype.toString.call(o) === "[object Array]";
@@ -1070,7 +1072,7 @@ exports.keys = function (object) {
 if ('ab'.substr(-1) !== 'b') {
   exports.substr = function (str, start, length) {
     // did we get a negative start, calculate how much it is from the beginning of the string
-    if (start < 0) start = str.length + start;
+    if (start < 0) { start = str.length + start; }
 
     // call the original function
     return str.substr(start, length);
@@ -1083,7 +1085,7 @@ if ('ab'.substr(-1) !== 'b') {
 
 // Array.prototype.map is supported in IE9
 exports.map = function map(xs, fn) {
-  if (xs.map) return xs.map(fn);
+  if (xs.map) { return xs.map(fn); }
   var out = new Array(xs.length);
   for (var i = 0; i < xs.length; i++) {
     out[i] = fn(xs[i], i, xs);
