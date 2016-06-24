@@ -593,6 +593,10 @@ if (!Array.isArray) {
   };
 }
 
+var isEmpty = function(val) {
+  return val === null || val === undefined || val === false;
+};
+
 var objectEach = function(obj, cb){
   for (var k in obj){
     if (obj.hasOwnProperty(k)) {
@@ -676,7 +680,7 @@ UrlGrey.prototype.parsed = function(){
    path:        this._parsed.path,
    href:        this._parsed.href,
    username:    this._parsed.username,
-   password:      this._parsed.password
+   password:    this._parsed.password
   };
 
 
@@ -730,22 +734,10 @@ UrlGrey.prototype.port = function(num){
 };
 
 UrlGrey.prototype.query = function(mergeObject){
-  var path;
-  if (mergeObject === false){
-    // clear the query entirely if the input === false
+  if (arguments.length === 0) {
+    return querystring.parse(this.queryString());
+  } else if (isEmpty(mergeObject)){
     return this.queryString('');
-  }
-  
-  var url = this.url;
-  if (!mergeObject){
-    var parsed = urlParse(url);
-    if (!!parsed.search){
-      var qstr = parsed.search.substring(1);
-      var output = querystring.parse(qstr);
-
-      return output;
-    }
-    return {};
   } else {
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
@@ -757,26 +749,25 @@ UrlGrey.prototype.query = function(mergeObject){
       }
     });
     var newString = querystring.stringify(oldQuery);
-    return this.queryString(newString);
+    var ret = this.queryString(newString);
+    return ret;
   }
 };
 
   
 UrlGrey.prototype.rawQuery = function(mergeObject){
-  var path;
-  if (mergeObject === false){
-    // clear the query entirely if the input === false
+  if (arguments.length === 0) {
+    if (this.queryString().length === 0) { return {}; }
+    
+    return this.queryString().split("&").reduce(function(obj, pair) {
+      pair = pair.split("=");
+      var key = pair[0];
+      var val = pair[1];
+      obj[key] = val;
+      return obj;
+    }, {});
+  } else if (isEmpty(mergeObject)){
     return this.queryString('');
-  }
-  
-  var url = this.url;
-  if (!mergeObject){
-    var parsed = urlParse(url);
-    if (!!parsed.search){
-      var qstr = parsed.search.substring(1);
-      return querystring.parse(qstr);
-    }
-    return {};
   } else {
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
@@ -1017,12 +1008,13 @@ function addPropertyGetterSetter(propertyName, methodName){
     methodName = propertyName;
   }
   UrlGrey.prototype[methodName] = function(str){
-    if (!!str || str === ''){
+    if (isEmpty(str)){
+      return this.parsed()[propertyName];  
+    } else {
       var obj = new UrlGrey(this.toString());
       obj.parsed()[propertyName] = str;
       return obj;
     }
-    return this.parsed()[propertyName];  
   };
 }
 

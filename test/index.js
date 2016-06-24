@@ -314,50 +314,76 @@ describe("urlgrey", function(){
   });
   describe("#rawQuery", function(){
     it("adds a querystring", function(){
-      urlgrey("http://asdf.com").rawQuery({asdf:'12 34'})
-        .toString().should.equal("http://asdf.com?asdf=12 34");
+      var updated = urlgrey("http://asdf.com").rawQuery({foo:'12 34'});
+
+      updated.toString().should.equal("http://asdf.com?foo=12 34");
+      updated.rawQuery().should.deep.equal({foo: "12 34"});
+    });
+    it("appends a querystring", function(){
+      var updated = urlgrey("http://asdf.com?foo=1234").rawQuery({bar:'56 78'});
+
+      updated.toString().should.equal("http://asdf.com?foo=1234&bar=56 78");
+      updated.rawQuery().should.deep.equal({foo: "1234", bar: "56 78"});
     });
     it("modifies a querystring", function(){
-      urlgrey("http://asdf.com?asdf=5678&b=2").rawQuery({asdf:'12 34'})
-        .toString().should.equal("http://asdf.com?asdf=12 34&b=2");
+      var updated = urlgrey("http://asdf.com?foo=1234&bar=abcd").rawQuery({foo: "56 78"});
+
+      updated.toString().should.equal("http://asdf.com?foo=56 78&bar=abcd");
+      updated.rawQuery().should.deep.equal({foo: "56 78", bar: "abcd"});
     });
     it("clears a querystring", function(){
-      urlgrey("http://asdf.com?asdf=5678").rawQuery(false)
-        .toString().should.equal("http://asdf.com");
+      var updated = urlgrey("http://asdf.com?foo=1234").rawQuery(false);
+      
+      updated.toString().should.equal("http://asdf.com");
+      updated.rawQuery().should.deep.equal({});
     });
-    it("clears an element of a querystring", function(){
-      urlgrey("http://asdf.com?a=1&b=2&c=3&d=4")
-        .rawQuery({a: 0, b: null, c: false, d: "false", e: "12 34"})
-        .toString().should.equal("http://asdf.com?a=0&d=false&e=12 34");
+    it("clears an element of a querystring with null or false", function(){
+      var updated = urlgrey("http://asdf.com")
+        .rawQuery({foo: 1, bar: 2, baz: 3})
+        .rawQuery({foo: 0, bar: null, baz: false});
+      
+      updated.toString().should.equal("http://asdf.com?foo=0");
+      updated.rawQuery().should.deep.equal({foo: "0"});
     });
     it("extracts a querystring as an object", function(){
-      chai.expect(
-      urlgrey("http://asdf.com?asdf=56%2078").rawQuery()
-      ).to.eql({asdf:'56 78'});
+      urlgrey("http://asdf.com?asdf=56%2078").rawQuery().should.deep.equal({asdf:'56%2078'});
     });
   });
   describe("#query", function(){
     it("adds a querystring", function(){
-      urlgrey("http://asdf.com").query({asdf:'12 34'})
-        .toString().should.equal("http://asdf.com?asdf=12%2034");
+      var updated = urlgrey("http://asdf.com").query({foo:'12 34'});
+
+      updated.toString().should.equal("http://asdf.com?foo=12%2034");
+      updated.query().should.deep.equal({foo: "12 34"});
+    });
+    it("appends a querystring", function(){
+      var updated = urlgrey("http://asdf.com?foo=1234").query({bar:'56 78'});
+
+      updated.toString().should.equal("http://asdf.com?foo=1234&bar=56%2078");
+      updated.query().should.deep.equal({foo: "1234", bar: "56 78"});
     });
     it("modifies a querystring", function(){
-      urlgrey("http://asdf.com?asdf=5678&b=2").query({asdf:1234})
-        .toString().should.equal("http://asdf.com?asdf=1234&b=2");
+      var updated = urlgrey("http://asdf.com?foo=1234&bar=abcd").query({foo: "56 78"});
+
+      updated.toString().should.equal("http://asdf.com?foo=56%2078&bar=abcd");
+      updated.query().should.deep.equal({foo: "56 78", bar: "abcd"});
     });
     it("clears a querystring", function(){
-      urlgrey("http://asdf.com?asdf=5678").query(false)
-        .toString().should.equal("http://asdf.com");
+      var updated = urlgrey("http://asdf.com?foo=1234").query(false);
+      
+      updated.toString().should.equal("http://asdf.com");
+      updated.query().should.deep.equal({});
     });
-    it("clears an element of a querystring", function(){
-      urlgrey("http://asdf.com?a=1&b=2&c=3&d=4")
-        .query({a: 0, b: null, c: false, d: "false", e: "12 34"})
-        .toString().should.equal("http://asdf.com?a=0&d=false&e=12%2034");
+    it("clears an element of a querystring with null or false", function(){
+      var updated = urlgrey("http://asdf.com")
+        .query({foo: 1, bar: 2, baz: 3})
+        .query({foo: 0, bar: null, baz: false});
+      
+      updated.toString().should.equal("http://asdf.com?foo=0");
+      updated.query().should.deep.equal({foo: "0"});
     });
     it("extracts a querystring as an object", function(){
-      chai.expect(
-        urlgrey("http://asdf.com?asdf=56%2078").query()
-      ).to.eql({asdf:'56 78'});
+      urlgrey("http://asdf.com?asdf=56%2078").query().should.deep.equal({asdf:'56 78'});
     });
   });
   describe('#encode', function(){
