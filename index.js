@@ -17,10 +17,6 @@ if (!Array.isArray) {
   };
 }
 
-var isEmpty = function(val) {
-  return val === null || val === undefined || val === false;
-};
-
 var objectEach = function(obj, cb){
   for (var k in obj){
     if (obj.hasOwnProperty(k)) {
@@ -160,7 +156,7 @@ UrlGrey.prototype.port = function(num){
 UrlGrey.prototype.query = function(mergeObject){
   if (arguments.length === 0) {
     return querystring.parse(this.queryString());
-  } else if (isEmpty(mergeObject)){
+  } else if (mergeObject === null || mergeObject === false){
     return this.queryString('');
   } else {
     // read the object out
@@ -190,13 +186,13 @@ UrlGrey.prototype.rawQuery = function(mergeObject){
       obj[key] = val;
       return obj;
     }, {});
-  } else if (isEmpty(mergeObject)){
+  } else if (mergeObject === null || mergeObject === false){
     return this.queryString('');
   } else {
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v === null || v === false){
+      if (v === null){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -432,7 +428,7 @@ function addPropertyGetterSetter(propertyName, methodName){
     methodName = propertyName;
   }
   UrlGrey.prototype[methodName] = function(str){
-    if (isEmpty(str)){
+    if (str || str === "") {
       return this.parsed()[propertyName];  
     } else {
       var obj = new UrlGrey(this.toString());
