@@ -344,10 +344,10 @@ describe("urlgrey", function(){
     it("clears an element of a querystring with null or false", function(){
       var updated = urlgrey("http://asdf.com")
         .rawQuery({foo: 1, bar: 2, baz: 3})
-        .rawQuery({foo: 0, bar: null, baz: false});
+        .rawQuery({foo: 0, bar: null});
       
-      updated.toString().should.equal("http://asdf.com?foo=0");
-      updated.rawQuery().should.deep.equal({foo: "0"});
+      updated.toString().should.equal("http://asdf.com?foo=0&baz=3");
+      updated.rawQuery().should.deep.equal({foo: "0", baz: "3"});
     });
     it("extracts a querystring as an object", function(){
       urlgrey("http://asdf.com?asdf=56%2078").rawQuery().should.deep.equal({asdf:'56%2078'});
@@ -380,11 +380,11 @@ describe("urlgrey", function(){
     });
     it("clears an element of a querystring with null or false", function(){
       var updated = urlgrey("http://asdf.com")
-        .query({foo: 1, bar: 2, baz: 3})
-        .query({foo: 0, bar: null, baz: false});
+        .rawQuery({foo: 1, bar: 2, baz: 3})
+        .rawQuery({foo: 0, bar: null});
       
-      updated.toString().should.equal("http://asdf.com?foo=0");
-      updated.query().should.deep.equal({foo: "0"});
+      updated.toString().should.equal("http://asdf.com?foo=0&baz=3");
+      updated.query().should.deep.equal({foo: "0", baz: "3"});
     });
     it("extracts a querystring as an object", function(){
       urlgrey("http://asdf.com?asdf=56%2078").query().should.deep.equal({asdf:'56 78'});

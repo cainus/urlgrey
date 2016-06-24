@@ -428,7 +428,7 @@ function addPropertyGetterSetter(propertyName, methodName){
     methodName = propertyName;
   }
   UrlGrey.prototype[methodName] = function(str){
-    if (str || str === "") {
+    if (!str && str !== "") {
       return this.parsed()[propertyName];  
     } else {
       var obj = new UrlGrey(this.toString());
