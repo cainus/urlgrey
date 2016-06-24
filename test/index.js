@@ -294,12 +294,16 @@ describe("urlgrey", function(){
 
   describe("#queryString", function(){
     it("sets the queryString", function(){
-      urlgrey("http://s.asdf.com").queryString('asdf=1234')
-        .toString().should.equal("http://s.asdf.com?asdf=1234");
+      var updated = urlgrey("http://s.asdf.com").queryString('foo=1234');
+      
+      updated.toString().should.equal("http://s.asdf.com?foo=1234");
+      updated.query().should.deep.equal({foo: "1234"});
     });
-    it("updates the queryString", function(){
-      urlgrey("http://s.asdf.com?asdf=1234").queryString('qwer=1235')
-        .toString().should.equal("http://s.asdf.com?qwer=1235");
+    it("changes the queryString", function(){
+      var updated = urlgrey("http://s.asdf.com?foo=1234&bar=5678").queryString('baz=3456');
+      
+      updated.toString().should.equal("http://s.asdf.com?baz=3456");
+      updated.query().should.deep.equal({baz: "3456"});
     });
     it("gets the queryString", function(){
       chai.expect(
