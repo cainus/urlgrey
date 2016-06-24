@@ -172,7 +172,7 @@ UrlGrey.prototype.query = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v === null){
+      if (v == null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;
@@ -203,7 +203,7 @@ UrlGrey.prototype.rawQuery = function(mergeObject){
     // read the object out
     var oldQuery = querystring.parse(this.queryString());
     objectEach(mergeObject, function(v, k){
-      if (v === null){
+      if (v == null || v === false){
         delete oldQuery[k];
       } else {
         oldQuery[k] = v;

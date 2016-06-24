@@ -327,6 +327,11 @@ describe("urlgrey", function(){
       urlgrey("http://asdf.com?asdf=5678").rawQuery(false)
         .toString().should.equal("http://asdf.com");
     });
+    it("clears an element of a querystring", function(){
+      urlgrey("http://asdf.com?a=1&b=2&c=3&d=4")
+        .rawQuery({a: 0, b: null, c: false, d: "false", e: "12 34"})
+        .toString().should.equal("http://asdf.com?a=0&d=false&e=12 34");
+    });
     it("extracts a querystring as an object", function(){
       chai.expect(
       urlgrey("http://asdf.com?asdf=56%2078").rawQuery()
@@ -345,6 +350,11 @@ describe("urlgrey", function(){
     it("clears a querystring", function(){
       urlgrey("http://asdf.com?asdf=5678").query(false)
         .toString().should.equal("http://asdf.com");
+    });
+    it("clears an element of a querystring", function(){
+      urlgrey("http://asdf.com?a=1&b=2&c=3&d=4")
+        .query({a: 0, b: null, c: false, d: "false", e: "12 34"})
+        .toString().should.equal("http://asdf.com?a=0&d=false&e=12%2034");
     });
     it("extracts a querystring as an object", function(){
       chai.expect(
