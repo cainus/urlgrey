@@ -19,7 +19,7 @@ if (!Array.isArray) {
 
 var objectEach = function(obj, cb){
   for (var k in obj){
-    if (obj.hasOwnProperty(k)) {
+    if (Object.prototype.hasOwnProperty.call(obj, k)) {
       cb(obj[k], k);  
     }
   }
