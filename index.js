@@ -2,6 +2,8 @@ var url = require("fast-url-parser");
 var querystring = require('querystring');
 var isBrowser = (typeof window !== "undefined");
 
+// the node url library is quite slow & is often a code bottleneck
+// this wraps fast-url-parser to return url-parser-like results
 function urlParse(href) {
   var parsed = url.parse(href);
   var result = {
@@ -18,11 +20,12 @@ function urlParse(href) {
     search: parsed.search,
     pathname: parsed.pathname,
     _prependSlash: parsed._prependSlash,
+
+    // fields that node url library returns too
     port: parsed._port === -1 ? null : parsed._port.toString(),
     path: (parsed.pathname || "") + (parsed.search || ""),
-    href: parsed._href || href,
+    href: href,
     query: parsed.search ? parsed.search.slice(1) : parsed.search,
-    // fields that "url" also returns
     protocol: parsed._protocol + ":"
   };
 
