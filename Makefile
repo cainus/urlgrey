@@ -26,7 +26,7 @@ precommit:
 
 test:
 	$(MAKE) lint
-	@NODE_ENV=test ./node_modules/.bin/mocha -b --reporter $(REPORTER)
+	@NODE_ENV=test ./node_modules/.bin/mocha --bail --reporter $(REPORTER)
 
 test-cov:
 	$(MAKE) lint
