@@ -189,33 +189,10 @@ Setter/getter for the username portion of the url.
 `npm install urlgrey --save`
 
 Also!  If you're using urlgrey in an http application, see [urlgrey-connect](https://github.com/cainus/urlgrey-connect).  It gives you an urlgrey object already instantiated with the request url as req.uri in all your request handlers.
-### in the browser:
-Lots of options:
-* grab urlgrey.js from the root of this repo for [browserify](http://browserify.org/)-built, unminified version.
-* grab urlgrey.min.js from the root of this repo for a [browserify](http://browserify.org/)-built, minified version.
-* use [browserify](http://browserify.org/) and include this like any other node package.
-
 
 ## Contributing:
 ### Testing:
 #### Run the node tests:
 * `make test`
-
-#### Run the browser file:// tests:
-* `make browser-build`
-* ...then open test.html in a browser
-
-#### Run the browser tests on a real server:
-* `make browser-build`
-* `python -m SimpleHTTPServer 9999`
-* ...then open http://localhost://9999/test.html in a browser
-
-### Building before committing
-* `make precommit`
-
-### Running node tests with a coverage report
-* `make test-cov`
-
-
 
  
