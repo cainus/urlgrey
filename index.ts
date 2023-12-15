@@ -466,9 +466,11 @@ UrlGrey.prototype.params = function(inUrl){
 // TODO relative()  // takes an absolutepath and returns a relative one
 // TODO absolute() // takes a relative path and returns an absolute one.
 
-export default (url: string) => {
-  return new UrlGrey(url)
+export default function urlgrey(url: string) {
+  return new UrlGrey(url);
 }
+
+urlgrey.UrlGrey = UrlGrey;
 
 // function addPropertyGetterSetter(propertyName: string, methodName?: string) {
 //   if (!methodName) {
